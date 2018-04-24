@@ -1,0 +1,50 @@
+swagger: "2.0"
+info:
+  description: "This is the API for interacting with the Going FaaS functions."
+  title: "Going FaaS API"
+  version: "1.0"
+host: "beta"
+basePath: "/"
+tags:
+- name: "trumpet"
+  description: "Generate Trump Tweets!"
+schemes:
+- "https"
+paths:
+  /v1/trumpet:
+    post:
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${region}:${aws_account}:function:Trumpet-$${stageVariables.stage}/invocations"
+      tags:
+      - "trumpet"
+      summary: "Return a Trump Tweet Markov Chain"
+      description: "Builds a new Markov Chain Text from @realDonalTrump's Twitter feed."
+      consumes:
+      - "application/json"
+      produces:
+      - "text/plain"
+      parameters:
+      - in: "body"
+        name: "trumpet request"
+        description: "The parameters to build a Trump Tweet."
+        required: true
+        schema:
+          $ref: "#/definitions/TrumpetRequest"
+      responses:
+        200:
+          description: "A Trump Tweet."
+          schema:
+            type: "string"
+        500:
+          description: "Internal error"
+definitions:
+  TrumpetRequest:
+    type: "object"
+    description: "The information needed to build a Trump Tweet."
+    properties:
+      keySize:
+        type: "integer"
+      outputSize:
+        type: "integer"
