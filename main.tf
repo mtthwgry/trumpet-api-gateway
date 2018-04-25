@@ -6,9 +6,6 @@ provider "aws" {
   secret_key = "${var.role_secret_key}"
 }
 
-resource "aws_sns_topic_subscription" "matts-thing" {
-  topic_arn = ""
-}
 data "template_file" "swagger" {
   template = "${file("swagger.yaml")}"
 
@@ -26,8 +23,6 @@ resource "aws_api_gateway_rest_api" "going_faas_api" {
 }
 
 resource "aws_api_gateway_deployment" "stage" {
-  depends_on = ["aws_sns_topic_subscription.matts-thing"]
-
   rest_api_id = "${aws_api_gateway_rest_api.going_faas_api.id}"
   stage_name  = "${var.stage_name}"
 
