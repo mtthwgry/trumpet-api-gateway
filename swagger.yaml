@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
   description: "This is the API for interacting with the Going FaaS functions."
-  title: "Going FaaS API"
+  title: "${engineer_name}'s Going FaaS API"
   version: "1.0"
 host: "beta"
 basePath: "/"
@@ -11,12 +11,16 @@ tags:
 schemes:
 - "https"
 paths:
-  /v1/trumpet:
+  /trumpet:
     post:
       x-amazon-apigateway-integration:
         type: "aws"
         httpMethod: "POST"
-        uri: "arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${region}:${aws_account}:function:Trumpet-$${stageVariables.stage}/invocations"
+        uri: "arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${region}:${aws_account}:function:${engineer_name}-TrumpetFunction-$${stageVariables.stage}/invocations"
+        responses:
+          -:
+            statusCode: 200
+            type: text/plain
       tags:
       - "trumpet"
       summary: "Return a Trump Tweet Markov Chain"

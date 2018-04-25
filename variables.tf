@@ -6,9 +6,12 @@ variable stage_name {
   default = "beta"
 }
 
+variable engineer_name {}
+
 variable role_token {}
 variable role_access_key {}
 variable role_secret_key {}
 
-variable tag_environment {}
-variable host {}
+variable aws_account {
+  default = "TF_VAR_aws_account"
+}
